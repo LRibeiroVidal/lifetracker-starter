@@ -1,0 +1,17 @@
+.landing-page {
+	margin-left: 37vw;
+	margin-top: 8vw;
+}
+
+.contents {
+	position: absolute;
+	margin-top: 8vw;
+	margin-left: 1vw;
+	text-align: center;
+	color: aliceblue;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1.title {
+	font-size: 3em;
+}

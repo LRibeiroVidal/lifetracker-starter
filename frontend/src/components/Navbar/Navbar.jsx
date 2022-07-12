@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { deepmerge } from "@mui/utils";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 const pages = ["Activity", "Exercise", "Nutrition", "Sleep"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -54,10 +55,12 @@ const Navbar = () => {
 			<AppBar position="static" className="navbar" color="primary">
 				<Container maxWidth="xxl">
 					<Toolbar disableGutters className="navbar">
-						<img
-							src="http://codepath-lifetracker.surge.sh/static/media/codepath.70a9a31f.svg"
-							alt="logo"
-						/>
+						<a href="/">
+							<img
+								src="http://codepath-lifetracker.surge.sh/static/media/codepath.70a9a31f.svg"
+								alt="logo"
+							/>
+						</a>
 
 						<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 							<IconButton
@@ -83,7 +86,6 @@ const Navbar = () => {
 									horizontal: "left",
 								}}
 								open={Boolean(anchorElNav)}
-								onClose={handleCloseNavMenu}
 								sx={{
 									display: { xs: "block", md: "none" },
 								}}
@@ -121,7 +123,7 @@ const Navbar = () => {
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
 								>
-									{page}
+									<a href={"/" + page}>{page}</a>
 								</Button>
 							))}
 						</Box>
