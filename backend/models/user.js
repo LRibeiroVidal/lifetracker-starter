@@ -7,13 +7,13 @@ class User {
 		return {
 			id: user.id,
 			email: user.email,
+			username: user.username,
 			firstName: user.first_name,
 			lastName: user.last_name,
 		};
 	}
 
 	static async login(credentials) {
-		// TODO: post username and password to API endpoint
 		const requiredFields = ["email", "password"];
 		requiredFields.forEach((required) => {
 			if (!credentials.hasOwnProperty(required)) {
@@ -37,13 +37,12 @@ class User {
 	}
 
 	static async register(credentials) {
-		//TODO: post username and password to API endpoint
 		const requiredFields = [
 			"email",
+			"username",
 			"password",
 			"firstName",
 			"lastName",
-			"location",
 		];
 		requiredFields.forEach((required) => {
 			if (!credentials.hasOwnProperty(required)) {
@@ -66,20 +65,20 @@ class User {
 			`
 			INSERT INTO users(
 				email,
+				uername,
 				password,
 				first_name,
 				last_name,
-				location
 			)
 			VALUES ($1, $2, $3, $4, $5)
-			RETURNING email, password, first_name, last_name, location;
+			RETURNING email, username, password, first_name, last_name;
 		`,
 			[
 				lowerCaseEmail,
+				credentials.username,
 				hashedPassword,
 				credentials.firstName,
 				credentials.lastName,
-				credentials.location,
 			]
 		);
 
@@ -93,6 +92,20 @@ class User {
 
 		const query = `SELECT * FROM users WHERE email = $1`;
 		const result = await db.query(query, [email.toLowerCase()]);
+
+		const user = result.rows[0];
+
+		return user;
+	}
+
+	static async fetchUserByUsername(username) {
+		if (!username) {
+			throw new BadRequestError("No username provided");
+		}
+
+		const query = `SELECT * FROM users WHERE username = $1`;
+
+		const result = await db.query(query, [username]);
 
 		const user = result.rows[0];
 
