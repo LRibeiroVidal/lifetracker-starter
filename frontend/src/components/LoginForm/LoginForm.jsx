@@ -3,6 +3,16 @@ import "./LoginForm.css";
 import { Link } from "react-router-dom";
 
 export default function LoginForm(props) {
+	const [email, setEmail] = React.useState("");
+	const [password, setPassword] = React.useState("");
+
+	function handleOnLogin(event) {
+		event.preventDefault();
+		setEmail("");
+		setPassword("");
+		return props.loginPostReq(email, password);
+	}
+
 	return (
 		<div className="login-form">
 			<div className="card">
@@ -14,10 +24,10 @@ export default function LoginForm(props) {
 						<input
 							type="email"
 							name="email"
-							placeholder="user@gmail.com"
-							value={props.email}
+							placeholder="user@email.com"
+							value={email}
 							onChange={(evt) => {
-								props.setEmail(evt.target.value);
+								setEmail(evt.target.value);
 							}}
 						/>
 					</div>
@@ -27,13 +37,21 @@ export default function LoginForm(props) {
 							type="password"
 							name="password"
 							placeholder="password"
-							value={props.password}
+							value={password}
 							onChange={(evt) => {
-								props.setPassword(evt.target.value);
+								setPassword(evt.target.value);
 							}}
 						/>
 					</div>
-					<button className="btn">Login</button>
+
+					<button
+						className="btn"
+						onClick={(event) => {
+							handleOnLogin(event);
+						}}
+					>
+						Login
+					</button>
 				</div>
 				<div className="footer">
 					<p>

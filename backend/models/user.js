@@ -1,5 +1,5 @@
 const db = require("../db");
-const { BadRequestError, UnauthorizedAccessError } = require("../utils/errors");
+const { BadRequestError, UnauthorizedError } = require("../utils/errors");
 const bcrypt = require("bcrypt");
 
 class User {
@@ -33,7 +33,7 @@ class User {
 			}
 		}
 
-		throw new UnauthorizedAccessError("Incorrect Password");
+		throw new UnauthorizedError("Incorrect Password");
 	}
 
 	static async register(credentials) {

@@ -9,16 +9,73 @@ import Nutrition from "./components/Nutrition/Nutrition";
 import Sleep from "./components/Sleep/Sleep";
 import LoginForm from "./components/LoginForm/LoginForm";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
+import Axios from "axios";
+
+const URL_BASE = "http://localhost:3001/";
 
 function App() {
-	const [email, setEmail] = React.useState("");
-	const [password, setPassword] = React.useState("");
+	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+	const [thisUser, setThisUser] = React.useState(null);
+
+	async function loginPostReq(email, password) {
+		const LOGIN_URL = URL_BASE + "auth/login";
+		const login_user = await { email: email, password: password };
+
+		console.log(login_user);
+		Axios.post(LOGIN_URL, login_user)
+			.then(function (response) {
+				setThisUser(response.data.user);
+				localStorage.setItem("token", response.data.token);
+				return response;
+			})
+			.catch(function (error) {
+				console.log("ERROR"); //TODO: ERROR HANDLING
+			});
+
+		setIsLoggedIn(true);
+	}
+
+	function logout() {
+		setIsLoggedIn(false);
+		setThisUser(null);
+		localStorage.removeItem("token");
+	}
+
+	async function registerPostReq(
+		email,
+		username,
+		firstName,
+		lastName,
+		password
+	) {
+		const REGISTER_URL = URL_BASE + "auth/register";
+		const register_user = await {
+			email: email,
+			username: username,
+			firstName: firstName,
+			lastName: lastName,
+			password: password,
+		};
+
+		console.log(register_user);
+		Axios.post(REGISTER_URL, register_user)
+			.then(function (response) {
+				setThisUser(response.data);
+				localStorage.setItem("token", response.data.token);
+				return response;
+			})
+			.catch(function (error) {
+				console.log("ERROR"); //TODO: ERROR HANDLING
+			});
+
+		setIsLoggedIn(true);
+	}
 
 	return (
 		<div className="App">
 			<header className="App-header">
 				<BrowserRouter>
-					<Navbar />
+					<Navbar isLoggedIn={isLoggedIn} thisUser={thisUser} logout={logout} />
 					<Routes>
 						<Route path="/" element={<LandingPage />} />
 						<Route path="/Activity" element={<Activity />} />
@@ -27,16 +84,12 @@ function App() {
 						<Route path="/Sleep" element={<Sleep />} />
 						<Route
 							path="/Login"
-							element={
-								<LoginForm
-									email={email}
-									setEmail={setEmail}
-									password={password}
-									setPassword={setPassword}
-								/>
-							}
+							element={<LoginForm loginPostReq={loginPostReq} />}
 						/>
-						<Route path="/Register" element={<RegisterForm />} />
+						<Route
+							path="/Register"
+							element={<RegisterForm registerPostReq={registerPostReq} />}
+						/>
 					</Routes>
 				</BrowserRouter>
 			</header>

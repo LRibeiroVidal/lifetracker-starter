@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 const pages = ["Activity", "Exercise", "Nutrition", "Sleep"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const Navbar = () => {
+const Navbar = (props) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -129,19 +129,32 @@ const Navbar = () => {
 						</Box>
 
 						<Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-							<Button
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: "white", display: "block" }}
-							>
-								<Link to="/Login">Log in</Link>
-							</Button>
+							<Link to="/Login" className={props.isLoggedIn ? "hidden" : ""}>
+								<Button
+									onClick={handleCloseNavMenu}
+									sx={{ my: 2, color: "white", display: "block" }}
+								>
+									Log in
+								</Button>
+							</Link>
 
-							<Button
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: "white", display: "block" }}
+							<Link to="/Register" className={props.isLoggedIn ? "hidden" : ""}>
+								<Button
+									onClick={handleCloseNavMenu}
+									sx={{ my: 2, color: "white", display: "block" }}
+								>
+									Register
+								</Button>
+							</Link>
+
+							{/* Here is the stuf that only shows up when the user is logged in*/}
+							<div>{props.thisUser ? props.thisUser.username : ""}</div>
+							<button
+								className={props.thisUser ? "log-out" : "hidden"}
+								onClick={props.logout}
 							>
-								Register
-							</Button>
+								Log Out
+							</button>
 						</Box>
 					</Toolbar>
 				</Container>
