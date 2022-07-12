@@ -55,12 +55,12 @@ const Navbar = () => {
 			<AppBar position="static" className="navbar" color="primary">
 				<Container maxWidth="xxl">
 					<Toolbar disableGutters className="navbar">
-						<a href="/">
+						<Link to="/">
 							<img
 								src="http://codepath-lifetracker.surge.sh/static/media/codepath.70a9a31f.svg"
 								alt="logo"
 							/>
-						</a>
+						</Link>
 
 						<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 							<IconButton
@@ -123,7 +123,7 @@ const Navbar = () => {
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
 								>
-									<a href={"/" + page}>{page}</a>
+									<Link to={"/" + page}>{page}</Link>
 								</Button>
 							))}
 						</Box>
@@ -133,7 +133,7 @@ const Navbar = () => {
 								onClick={handleCloseNavMenu}
 								sx={{ my: 2, color: "white", display: "block" }}
 							>
-								Login
+								<Link to="/Login">Log in</Link>
 							</Button>
 
 							<Button

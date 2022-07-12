@@ -16,6 +16,7 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
 	try {
+		console.log("BEFORE TRY: ", req.body);
 		const user = await User.register({ ...req.body, isAdmin: false });
 		console.log(user);
 		const token = createUser(user);

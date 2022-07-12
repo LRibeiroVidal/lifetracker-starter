@@ -39,8 +39,8 @@ class User {
 	static async register(credentials) {
 		const requiredFields = [
 			"email",
-			"username",
 			"password",
+			"username",
 			"firstName",
 			"lastName",
 		];
@@ -50,8 +50,9 @@ class User {
 			}
 		});
 
-		if (credentials.email.indexOf("@") <= 0)
+		if (credentials.email.indexOf("@") <= 0) {
 			throw new BadRequestError(`Invalid Email: ${credentials.email}`);
+		}
 
 		const existingUser = this.fetchUserByEmail(credentials.email);
 
@@ -65,10 +66,10 @@ class User {
 			`
 			INSERT INTO users(
 				email,
-				uername,
+				username,
 				password,
 				first_name,
-				last_name,
+				last_name
 			)
 			VALUES ($1, $2, $3, $4, $5)
 			RETURNING email, username, password, first_name, last_name;
@@ -81,7 +82,7 @@ class User {
 				credentials.lastName,
 			]
 		);
-
+		console.log("RESULT: ", result);
 		const user = result.rows[0];
 		return User.makePublicUser(user);
 	}
