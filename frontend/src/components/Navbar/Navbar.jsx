@@ -123,7 +123,9 @@ const Navbar = (props) => {
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
 								>
-									<Link to={"/" + page}>{page}</Link>
+									<Link to={props.thisUser ? "/" + page : "/Login"}>
+										{page}
+									</Link>
 								</Button>
 							))}
 						</Box>

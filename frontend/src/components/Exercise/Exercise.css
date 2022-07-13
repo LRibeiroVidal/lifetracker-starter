@@ -1,0 +1,17 @@
+.exercise-topbar {
+	display: flex;
+	justify-content: space-around;
+}
+
+.exercise {
+	align-items: center;
+	color: aliceblue;
+}
+
+.exercise-title {
+	text-align: center;
+	background-color: #46573e;
+	padding: 1vw;
+	margin-top: 2vw;
+	margin-bottom: 2vw;
+}

@@ -11,6 +11,18 @@ CREATE TABLE
   );
 
 CREATE TABLE
+  exercise (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    duration INTEGER NOT NULL,
+    intensity INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+  );
+
+CREATE TABLE
   nutrition (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
