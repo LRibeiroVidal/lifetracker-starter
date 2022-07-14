@@ -16,10 +16,9 @@ app.listen(PORT, () => {
 app.use(morgan("tiny"));
 app.use(express.json());
 app.use(cors());
+app.use(security.extractUserFromJwt);
 app.use("/auth", authRoutes);
 app.use("/tracker", trackerRoutes);
-
-app.use(security.extractUserFromJwt);
 
 app.get("/", (req, res) => {
 	res.status(200).send({ ping: "pong" });

@@ -3,7 +3,7 @@ require("colors");
 
 const PORT = Number(process.env.PORT);
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "secrets";
 
 function getDatabaseUri() {
 	const dbUser = process.env.DATABASE_USER || "postgres";

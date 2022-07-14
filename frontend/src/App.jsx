@@ -16,23 +16,26 @@ const URL_BASE = "http://localhost:3001/";
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 	const [thisUser, setThisUser] = React.useState(null);
+	const [allExercises, setAllExercises] = React.useState("");
+	const config = {
+		headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+	};
 
 	async function loginPostReq(email, password) {
 		const LOGIN_URL = URL_BASE + "auth/login";
 		const login_user = await { email: email, password: password };
 
-		console.log(login_user);
 		Axios.post(LOGIN_URL, login_user)
 			.then(function (response) {
 				setThisUser(response.data.user);
 				localStorage.setItem("token", response.data.token);
+				setIsLoggedIn(true);
+
 				return response;
 			})
 			.catch(function (error) {
-				console.log("ERROR"); //TODO: ERROR HANDLING
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
 			});
-
-		setIsLoggedIn(true);
 	}
 
 	function logout() {
@@ -57,29 +60,79 @@ function App() {
 			password: password,
 		};
 
-		console.log(register_user);
 		Axios.post(REGISTER_URL, register_user)
 			.then(function (response) {
-				setThisUser(response.data);
+				setThisUser(response.data.user);
 				localStorage.setItem("token", response.data.token);
+				setIsLoggedIn(true);
+
 				return response;
 			})
 			.catch(function (error) {
-				console.log("ERROR"); //TODO: ERROR HANDLING
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
 			});
+	}
 
-		setIsLoggedIn(true);
+	async function addExercisePostRequest(name, category, duration, intensity) {
+		const ADDEXERCISE_URL = URL_BASE + "tracker/addExercise";
+		const exerciseAdded = {
+			name: name,
+			category: category,
+			duration: duration,
+			intensity: intensity,
+			user_id: thisUser.id,
+		};
+		Axios.post(ADDEXERCISE_URL, exerciseAdded, config)
+			.then(function (response) {
+				console.log("SUCCESS ", response);
+				setAllExercises(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function getExercises(user_id) {
+		console.log("ID ", user_id);
+		const GETEXERCISE_URL = URL_BASE + "tracker/getExercises";
+		Axios.post(GETEXERCISE_URL, user_id, config)
+			.then(function (response) {
+				console.log("HERE HERE HERE ", response.data.rows);
+				setAllExercises(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
 	}
 
 	return (
 		<div className="App">
 			<header className="App-header">
 				<BrowserRouter>
-					<Navbar isLoggedIn={isLoggedIn} thisUser={thisUser} logout={logout} />
+					<Navbar
+						isLoggedIn={isLoggedIn}
+						thisUser={thisUser}
+						logout={logout}
+						setAllExercises={setAllExercises}
+						getExercises={getExercises}
+					/>
 					<Routes>
 						<Route path="/" element={<LandingPage />} />
 						<Route path="/Activity" element={<Activity />} />
-						<Route path="/Exercise" element={<Exercise />} />
+						<Route
+							path="/Exercise"
+							element={
+								<Exercise
+									addExercise={addExercisePostRequest}
+									allExercises={allExercises}
+									setAllExercises={setAllExercises}
+									getExercises={getExercises}
+									thisUser={thisUser}
+								/>
+							}
+						/>
 						<Route path="/Nutrition" element={<Nutrition />} />
 						<Route path="/Sleep" element={<Sleep />} />
 						<Route

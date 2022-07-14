@@ -8,6 +8,9 @@ router.post("/login", async (req, res, next) => {
 	try {
 		const user = await User.login(req.body);
 		const token = createUser(user);
+		res.locals.token = token;
+		console.log("LOGIN: ", res.locals);
+
 		return res.status(200).json({ user, token });
 	} catch (err) {
 		next(err);
@@ -16,11 +19,11 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
 	try {
-		console.log("BEFORE TRY: ", req.body);
 		const user = await User.register({ ...req.body, isAdmin: false });
-		console.log(user);
 		const token = createUser(user);
-		return res.status(200).json({ user, token });
+
+		res.locals.token = token;
+		return res.status(201).json({ user, token });
 	} catch (err) {
 		next(err);
 	}

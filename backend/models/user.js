@@ -20,7 +20,7 @@ class User {
 				throw new BadRequestError(`Invalid ${required} provided`);
 			}
 		});
-		const user = await this.fetchUserByEmail(credentials.email.toLowerCase());
+		const user = await User.fetchUserByEmail(credentials.email.toLowerCase());
 
 		if (user) {
 			const validPassword = await bcrypt.compare(
@@ -54,7 +54,7 @@ class User {
 			throw new BadRequestError(`Invalid Email: ${credentials.email}`);
 		}
 
-		const existingUser = this.fetchUserByEmail(credentials.email);
+		const existingUser = User.fetchUserByEmail(credentials.email);
 
 		if (!existingUser) {
 			throw new BadRequestError(`User ${credentials.email} already exists`);
@@ -72,7 +72,7 @@ class User {
 				last_name
 			)
 			VALUES ($1, $2, $3, $4, $5)
-			RETURNING email, username, password, first_name, last_name;
+			RETURNING id, email, username, password, first_name, last_name;
 		`,
 			[
 				lowerCaseEmail,
@@ -82,8 +82,8 @@ class User {
 				credentials.lastName,
 			]
 		);
-		console.log("RESULT: ", result);
-		const user = result.rows[0];
+
+		const user = await result.rows[0];
 		return User.makePublicUser(user);
 	}
 

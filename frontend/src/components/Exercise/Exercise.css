@@ -15,3 +15,12 @@
 	margin-top: 2vw;
 	margin-bottom: 2vw;
 }
+
+.exercise-duration-intensity {
+	display: flex;
+}
+
+.exercise-card {
+	margin: 2vw;
+	background-color: goldenrod;
+}

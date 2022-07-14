@@ -1,8 +1,19 @@
 import * as React from "react";
 import "./Exercise.css";
 
-export default function Exercise() {
+export default function Exercise(props) {
 	const [isAddingExercise, setIsAddingExercise] = React.useState(false);
+
+	function renderExerciseCards() {
+		if (!props.allExercises[0]) return <div>No Exercises added yet</div>;
+
+		console.log(props.thisUser);
+		props.setAllExercises(props.getExercises(props.thisUser.id));
+
+		props.allExercises.map((e, idx) => {
+			return <ExerciseCard exercise={e} key={idx} />;
+		});
+	}
 
 	return (
 		<div className="exercise">
@@ -23,7 +34,7 @@ export default function Exercise() {
 					</button>
 				</div>
 
-				<div className="exercise-content"></div>
+				<div className="exercise-content">{renderExerciseCards()}</div>
 			</div>
 
 			<div
@@ -31,13 +42,17 @@ export default function Exercise() {
 					isAddingExercise ? "exercise-adding" : "exercise-adding hidden"
 				}
 			>
-				<AddExercise />
+				<AddExercise
+					addExercise={props.addExercise}
+					setAllExercises={props.setAllExercises}
+					setIsAddingExercise={setIsAddingExercise}
+				/>
 			</div>
 		</div>
 	);
 }
 
-export function AddExercise() {
+export function AddExercise(props) {
 	const [exerciseName, setExerciseName] = React.useState("");
 	const [exerciseCategory, setExerciseCategory] = React.useState("");
 	const [exerciseDuration, setExerciseDuration] = React.useState("");
@@ -99,7 +114,39 @@ export function AddExercise() {
 				</div>
 			</div>
 
-			<button className="btn-create-exercise">Save</button>
+			<button
+				className="btn-create-exercise"
+				onClick={() => {
+					props.addExercise(
+						exerciseName,
+						exerciseCategory,
+						exerciseDuration,
+						exerciseIntensity
+					);
+
+					props.setIsAddingExercise(false);
+				}}
+			>
+				Save
+			</button>
+		</div>
+	);
+}
+
+export function ExerciseCard({ exercise }) {
+	return (
+		<div className="exercise-card">
+			<div>{exercise.name}</div>
+			<div className="dur-int">
+				<div>Duration</div>
+				<div>{exercise.duration}</div>
+			</div>
+
+			<div className="dur-int">
+				<div>Intensity</div>
+				<div>{exercise.intensity}</div>
+			</div>
+			<div>{exercise.category}</div>
 		</div>
 	);
 }

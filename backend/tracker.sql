@@ -11,3 +11,5 @@ CREATE DATABASE tracker_data;
 \connect tracker_data;
 
 \i tracker-schema.sql;
+
+-- postgresql-encircled-72931 heroku URL
