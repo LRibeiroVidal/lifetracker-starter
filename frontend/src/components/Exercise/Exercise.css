@@ -1,11 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900");
+
 .exercise-topbar {
 	display: flex;
 	justify-content: space-around;
 }
 
 .exercise {
-	align-items: center;
 	color: aliceblue;
+	text-align: -webkit-center;
 }
 
 .exercise-title {
@@ -16,8 +18,16 @@
 	margin-bottom: 2vw;
 }
 
+.add-exercise-form {
+	text-align: center;
+}
+
 .exercise-duration-intensity {
 	display: flex;
+}
+
+.save-button-wrapper {
+	justify-content: center;
 }
 
 .exercise-card {
@@ -33,6 +43,8 @@
 
 .exercise-content {
 	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
 }
 
 .exercise-name {
@@ -44,12 +56,22 @@
 }
 
 .exercise-duration-intensity {
-	display: flex;
-	justify-content: space-around;
+	/* display: flex; */
+	justify-content: center;
+}
+
+.exercise-duration-form {
+	width: 50%;
+	margin-right: 5%;
+}
+.exercise-intensity-form {
+	width: 50%;
 }
 
 .dur-int {
 	text-align: center;
+	margin-left: 1vw;
+	margin-right: 1vw;
 }
 
 .dur-int-val {
@@ -63,3 +85,144 @@
 	margin-top: 1vw;
 	text-decoration: underline 2px;
 }
+
+.form__group {
+	align-self: center;
+	position: relative;
+	padding: 15px 0 0;
+	margin-top: 10px;
+	width: 50%;
+}
+
+.form__field {
+	font-family: inherit;
+	width: 100%;
+	margin-top: 1vw;
+	margin-bottom: 2vw;
+	border: 0;
+	border-bottom: 2px solid #9b9b9b;
+	outline: 0;
+	font-size: 1.3rem;
+	color: #fff;
+	padding: 7px 0;
+	background: transparent;
+	transition: border-color 0.2s;
+}
+.form__field::placeholder {
+	color: white;
+}
+.form__field:placeholder-shown ~ .form__label {
+	font-size: 1.3rem;
+	cursor: text;
+	top: 20px;
+}
+
+.form__label {
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	color: #9b9b9b;
+}
+
+.form__field:focus {
+	padding-bottom: 6px;
+	font-weight: 700;
+	border-width: 3px;
+	border-image: linear-gradient(to right, #11998e, #38ef7d);
+	border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	color: #11998e;
+	font-weight: 700;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+	box-shadow: none;
+}
+
+:root {
+	--text-color: hsla(210, 50%, 85%, 1);
+	--shadow-color: hsla(210, 40%, 52%, 0.4);
+	--btn-color: goldenrod;
+	--bg-color: #141218;
+}
+
+.water_button {
+	position: relative;
+	padding: 10px 10px;
+	border: none;
+	background: none;
+	cursor: pointer;
+
+	font-family: "Source Code Pro";
+	font-weight: 900;
+	text-transform: uppercase;
+	font-size: 30px;
+	color: var(--text-color);
+
+	background-color: var(--btn-color);
+	box-shadow: var(--shadow-color) 2px 2px 22px;
+	border-radius: 4px;
+	z-index: 0;
+	overflow: hidden;
+
+	width: 100%;
+}
+
+/* bubbles */
+.water_button::before {
+	content: "";
+	pointer-events: none;
+	opacity: 0.6;
+	background: radial-gradient(
+			circle at 20% 35%,
+			transparent 0,
+			transparent 2px,
+			var(--text-color) 3px,
+			var(--text-color) 4px,
+			transparent 4px
+		),
+		radial-gradient(
+			circle at 75% 44%,
+			transparent 0,
+			transparent 2px,
+			var(--text-color) 3px,
+			var(--text-color) 4px,
+			transparent 4px
+		),
+		radial-gradient(
+			circle at 46% 52%,
+			transparent 0,
+			transparent 4px,
+			var(--text-color) 5px,
+			var(--text-color) 6px,
+			transparent 6px
+		);
+
+	width: 100%;
+	height: 300%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	animation: bubbles 5s linear infinite both;
+}
+
+@keyframes bubbles {
+	from {
+		transform: translate();
+	}
+	to {
+		transform: translate(0, -66.666%);
+	}
+}
+
+/*# sourceMappingURL=Exercise.css.map */

@@ -62,23 +62,21 @@ export function AddExercise(props) {
 	const [exerciseIntensity, setExerciseIntensity] = React.useState("");
 
 	return (
-		<div className="addExercise">
-			<div className="exercise-name">
-				<div className="param-title">Name</div>
+		<div className="add-exercise-form form__group">
+			<div className="exercise-name-form ">
 				<input
 					type="text"
-					className="input-name"
+					className="input-name form__field"
 					placeholder="Exercise Name"
 					value={exerciseName}
 					onChange={(evt) => setExerciseName(evt.target.value)}
 				/>
 			</div>
 
-			<div className="exercise-category">
-				<div className="param-title">Category</div>
+			<div className="exercise-category-form">
 				<input
 					type="text"
-					className="input-name"
+					className="input-name form__field"
 					placeholder="Exercise Category"
 					value={exerciseCategory}
 					onChange={(evt) => setExerciseCategory(evt.target.value)}
@@ -87,12 +85,11 @@ export function AddExercise(props) {
 
 			<div className="exercise-duration-intensity">
 				{/*TODO: Make this a flexbox*/}
-				<div className="exercise-duration">
-					<div className="param-title">Duration (min)</div>
+				<div className="exercise-duration-form">
 					<input
 						type="number"
-						className="input-name"
-						placeholder="Minutes"
+						className="input-name form__field"
+						placeholder="Duration (min)"
 						value={exerciseDuration}
 						onChange={(evt) => {
 							if (evt.target.value > 0) setExerciseDuration(evt.target.value);
@@ -101,12 +98,11 @@ export function AddExercise(props) {
 					/>
 				</div>
 
-				<div className="exercise-intensity">
-					<div className="param-title">Intensity (1-10)</div>
+				<div className="exercise-intensity-form">
 					<input
 						type="number"
-						className="input-name"
-						placeholder="1-10"
+						className="input-name form__field"
+						placeholder="Intensity (1-10)"
 						value={exerciseIntensity}
 						onChange={(evt) => {
 							if (evt.target.value > 0 && evt.target.value < 11)
@@ -116,22 +112,23 @@ export function AddExercise(props) {
 					/>
 				</div>
 			</div>
+			<div className="save-button-wrapper">
+				<button
+					className="btn-create-exercise water_button"
+					onClick={() => {
+						props.addExercise(
+							exerciseName,
+							exerciseCategory,
+							exerciseDuration,
+							exerciseIntensity
+						);
 
-			<button
-				className="btn-create-exercise"
-				onClick={() => {
-					props.addExercise(
-						exerciseName,
-						exerciseCategory,
-						exerciseDuration,
-						exerciseIntensity
-					);
-
-					props.setIsAddingExercise(false);
-				}}
-			>
-				Save
-			</button>
+						props.setIsAddingExercise(false);
+					}}
+				>
+					Save
+				</button>
+			</div>
 		</div>
 	);
 }

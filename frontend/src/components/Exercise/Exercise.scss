@@ -1,0 +1,140 @@
+.exercise-topbar {
+	display: flex;
+	justify-content: space-around;
+}
+
+.exercise {
+	align-items: center;
+	color: aliceblue;
+}
+
+.exercise-title {
+	text-align: center;
+	background-color: #46573e;
+	padding: 1vw;
+	margin-top: 2vw;
+	margin-bottom: 2vw;
+}
+
+.add-exercise-form {
+	text-align: center;
+}
+
+.exercise-duration-intensity {
+	display: flex;
+}
+
+.exercise-duration-form {
+	margin-right: 2vw;
+}
+
+.exercise-card {
+	margin: 1vw;
+	background-color: goldenrod;
+	border-radius: 1vw;
+	border: 1px whitesmoke solid;
+	width: 15vw;
+	height: 10vw;
+	font-size: large;
+	font-weight: bold;
+}
+
+.exercise-content {
+	display: flex;
+}
+
+.exercise-name {
+	margin: 1vw;
+	border: 2px solid white;
+	border-radius: 5px;
+	width: fit-content;
+	padding: 2px;
+}
+
+.exercise-duration-intensity {
+	display: flex;
+	justify-content: center;
+}
+
+.dur-int {
+	text-align: center;
+}
+
+.dur-int-val {
+	margin-top: 0.5vw;
+	font-size: 2vw;
+}
+
+.exercise-category {
+	text-align: right;
+	margin-right: 1vw;
+	margin-top: 1vw;
+	text-decoration: underline 2px;
+}
+
+$primary: #11998e;
+$secondary: #38ef7d;
+$white: #fff;
+$gray: #9b9b9b;
+.form__group {
+	position: relative;
+	padding: 15px 0 0;
+	margin-top: 10px;
+	width: 50%;
+}
+
+.form__field {
+	font-family: inherit;
+	width: 100%;
+	border: 0;
+	border-bottom: 2px solid $gray;
+	outline: 0;
+	font-size: 1.3rem;
+	color: $white;
+	padding: 7px 0;
+	background: transparent;
+	transition: border-color 0.2s;
+
+	&::placeholder {
+		color: transparent;
+	}
+
+	&:placeholder-shown ~ .form__label {
+		font-size: 1.3rem;
+		cursor: text;
+		top: 20px;
+	}
+}
+
+.form__label {
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	color: $gray;
+}
+
+.form__field:focus {
+	~ .form__label {
+		position: absolute;
+		top: 0;
+		display: block;
+		transition: 0.2s;
+		font-size: 1rem;
+		color: $primary;
+		font-weight: 700;
+	}
+	padding-bottom: 6px;
+	font-weight: 700;
+	border-width: 3px;
+	border-image: linear-gradient(to right, $primary, $secondary);
+	border-image-slice: 1;
+}
+/* reset input */
+.form__field {
+	&:required,
+	&:invalid {
+		box-shadow: none;
+	}
+}
