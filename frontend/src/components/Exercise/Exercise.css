@@ -21,6 +21,45 @@
 }
 
 .exercise-card {
-	margin: 2vw;
+	margin: 1vw;
 	background-color: goldenrod;
+	border-radius: 1vw;
+	border: 1px whitesmoke solid;
+	width: 15vw;
+	height: 10vw;
+	font-size: large;
+	font-weight: bold;
+}
+
+.exercise-content {
+	display: flex;
+}
+
+.exercise-name {
+	margin: 1vw;
+	border: 2px solid white;
+	border-radius: 5px;
+	width: fit-content;
+	padding: 2px;
+}
+
+.exercise-duration-intensity {
+	display: flex;
+	justify-content: space-around;
+}
+
+.dur-int {
+	text-align: center;
+}
+
+.dur-int-val {
+	margin-top: 0.5vw;
+	font-size: 2vw;
+}
+
+.exercise-category {
+	text-align: right;
+	margin-right: 1vw;
+	margin-top: 1vw;
+	text-decoration: underline 2px;
 }

@@ -5,14 +5,9 @@ export default function Exercise(props) {
 	const [isAddingExercise, setIsAddingExercise] = React.useState(false);
 
 	function renderExerciseCards() {
-		if (!props.allExercises[0]) return <div>No Exercises added yet</div>;
+		if (!props.allExercises[0]) return null;
 
-		console.log(props.thisUser);
-		props.setAllExercises(props.getExercises(props.thisUser.id));
-
-		props.allExercises.map((e, idx) => {
-			return <ExerciseCard exercise={e} key={idx} />;
-		});
+		return props.allExercises;
 	}
 
 	return (
@@ -34,7 +29,15 @@ export default function Exercise(props) {
 					</button>
 				</div>
 
-				<div className="exercise-content">{renderExerciseCards()}</div>
+				<div className="exercise-content">
+					{renderExerciseCards() ? (
+						renderExerciseCards().map((e, i) => {
+							return <ExerciseCard exercise={e} key={i} />;
+						})
+					) : (
+						<div>No Exercises added yet</div>
+					)}
+				</div>
 			</div>
 
 			<div
@@ -136,17 +139,20 @@ export function AddExercise(props) {
 export function ExerciseCard({ exercise }) {
 	return (
 		<div className="exercise-card">
-			<div>{exercise.name}</div>
-			<div className="dur-int">
-				<div>Duration</div>
-				<div>{exercise.duration}</div>
-			</div>
+			<div className="exercise-name">{exercise.name.toUpperCase()}</div>
 
-			<div className="dur-int">
-				<div>Intensity</div>
-				<div>{exercise.intensity}</div>
+			<div className="exercise-duration-intensity">
+				<div className="dur-int">
+					<div>Duration</div>
+					<div className="dur-int-val">{exercise.duration}</div>
+				</div>
+
+				<div className="dur-int">
+					<div>Intensity</div>
+					<div className="dur-int-val">{exercise.intensity}</div>
+				</div>
 			</div>
-			<div>{exercise.category}</div>
+			<div className="exercise-category">{exercise.category}</div>
 		</div>
 	);
 }

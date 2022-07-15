@@ -21,6 +21,11 @@ function App() {
 		headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 	};
 
+	React.useEffect(() => {
+		console.log("hot update");
+		if (thisUser) getExercises(thisUser.id);
+	}, [thisUser]);
+
 	async function loginPostReq(email, password) {
 		const LOGIN_URL = URL_BASE + "auth/login";
 		const login_user = await { email: email, password: password };
@@ -94,9 +99,9 @@ function App() {
 	}
 
 	async function getExercises(user_id) {
-		console.log("ID ", user_id);
+		let id_user = { user_id: user_id };
 		const GETEXERCISE_URL = URL_BASE + "tracker/getExercises";
-		Axios.post(GETEXERCISE_URL, user_id, config)
+		Axios.post(GETEXERCISE_URL, id_user, config)
 			.then(function (response) {
 				console.log("HERE HERE HERE ", response.data.rows);
 				setAllExercises(response.data.rows);
