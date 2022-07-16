@@ -11,8 +11,8 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
 import Axios from "axios";
 
-const URL_BASE_ALT = "https://lifetracker-app-lribeirovidal.herokuapp.com/";
-const URL_BASE = "http://localhost:3001/";
+const URL_BASE = "https://lifetracker-app-lribeirovidal.herokuapp.com/";
+const URL_BASE_LOCAL = "http://localhost:3001/";
 
 function App() {
 	const [thisUser, setThisUser] = React.useState(null);
