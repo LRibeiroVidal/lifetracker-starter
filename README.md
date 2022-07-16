@@ -43,7 +43,7 @@ Implement any of the following features to improve the application:
 `TODO://` Add the embedded URL code to your animated app walkthrough below, `ADD_EMBEDDED_CODE_HERE`. Make sure the video or gif actually renders and animates when viewing this README. (🚫 Remove this paragraph after adding walkthrough video)
 
 `ADD_EMBEDDED_CODE_HERE`
-https://github.com/LRibeiroVidal/lifetracker-starter/blob/main/Screen%20Recording%202022-07-15%20at%205.37.32%20PM.mov
+https://github.com/LRibeiroVidal/lifetracker-starter/blob/main/ezgif.com-gif-maker%20(2).gif
 
 ### Reflection
 
