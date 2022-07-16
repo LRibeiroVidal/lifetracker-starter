@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./Navbar.css";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,7 +16,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { deepmerge } from "@mui/utils";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const pages = ["Activity", "Exercise", "Nutrition", "Sleep"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -23,6 +24,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = (props) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
+	const navigator = useNavigate();
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -131,7 +133,10 @@ const Navbar = (props) => {
 						</Box>
 
 						<Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-							<Link to="/Login" className={props.isLoggedIn ? "hidden" : ""}>
+							<Link
+								to="/Login"
+								className={localStorage.getItem("token") ? "hidden" : ""}
+							>
 								<Button
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
@@ -140,7 +145,10 @@ const Navbar = (props) => {
 								</Button>
 							</Link>
 
-							<Link to="/Register" className={props.isLoggedIn ? "hidden" : ""}>
+							<Link
+								to="/Register"
+								className={localStorage.getItem("token") ? "hidden" : ""}
+							>
 								<Button
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
@@ -152,8 +160,11 @@ const Navbar = (props) => {
 							{/* Here is the stuf that only shows up when the user is logged in*/}
 							<div>{props.thisUser ? props.thisUser.username : ""}</div>
 							<button
-								className={props.thisUser ? "log-out" : "hidden"}
-								onClick={props.logout}
+								className={props.thisUser ? "animated-word" : "hidden"}
+								onClick={() => {
+									props.logout();
+									navigator("/");
+								}}
 							>
 								Log Out
 							</button>

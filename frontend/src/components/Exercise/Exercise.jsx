@@ -22,7 +22,7 @@ export default function Exercise(props) {
 				<div className="exercise-topbar">
 					<h1>Overview</h1>
 					<button
-						className="btn-add-exercise btn-add"
+						className="btn-add-exercise btn-add water_button"
 						onClick={() => setIsAddingExercise(true)}
 					>
 						Add Exercise
@@ -92,7 +92,7 @@ export function AddExercise(props) {
 						placeholder="Duration (min)"
 						value={exerciseDuration}
 						onChange={(evt) => {
-							if (evt.target.value > 0) setExerciseDuration(evt.target.value);
+							if (evt.target.value >= 0) setExerciseDuration(evt.target.value);
 							else setExerciseDuration(1);
 						}}
 					/>
@@ -105,9 +105,9 @@ export function AddExercise(props) {
 						placeholder="Intensity (1-10)"
 						value={exerciseIntensity}
 						onChange={(evt) => {
-							if (evt.target.value > 0 && evt.target.value < 11)
-								setExerciseIntensity(evt.target.value);
-							else setExerciseIntensity(1);
+							if (evt.target.value < 0) setExerciseIntensity(0);
+							else if (evt.target.value > 10) setExerciseIntensity(10);
+							else setExerciseIntensity(evt.target.value);
 						}}
 					/>
 				</div>

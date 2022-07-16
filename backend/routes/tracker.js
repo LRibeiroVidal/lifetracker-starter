@@ -10,9 +10,7 @@ router.post(
 	"/addExercise",
 	security.requireAuthenticatedUser,
 	async (req, res, next) => {
-		console.log("HO MATE");
 		try {
-			console.log("HERE TOO MATE");
 			const user = res.locals.user;
 			const requiredParams = ["name", "category", "duration", "intensity"];
 			requiredParams.forEach((requiredParam) => {
@@ -22,7 +20,6 @@ router.post(
 					);
 				}
 			});
-			console.log("HERE MATE");
 			const query = `
 			INSERT INTO exercise (name, category, duration, intensity, user_id)
 			VALUES ($1, $2, $3, $4, $5);
@@ -42,7 +39,6 @@ router.post(
 
 			const allExerciseR = await db.query(allExerciseQ, [req.body.user_id]);
 
-			console.log("Success: ", allExerciseR);
 			return res.status(201).json(allExerciseR);
 		} catch (err) {
 			console.log(err.stack);
@@ -59,7 +55,6 @@ router.post(
 			const allExerciseQ = `
 		SELECT * FROM exercise WHERE user_id = $1;
 		`;
-			console.log("BODY ", req);
 			const allExerciseR = await db.query(allExerciseQ, [req.body.user_id]);
 			return res.status(200).json(allExerciseR);
 		} catch (err) {

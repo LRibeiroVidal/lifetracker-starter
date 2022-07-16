@@ -7,7 +7,6 @@ function jwtFrom({ headers }) {
 		const [scheme, token] = headers.authorization.split(" ");
 
 		if (scheme.trim() == "Bearer") {
-			console.log("TOKENS ", token);
 			return token.trim();
 		}
 	}
@@ -23,14 +22,15 @@ const extractUserFromJwt = (req, res, next) => {
 		}
 		return next();
 	} catch (err) {
-		console.log("this error right here");
 		return next(err);
 	}
 };
 
 const requireAuthenticatedUser = (req, res, next) => {
 	try {
+		console.log("RES LOCALS: ", res.locals);
 		const { user } = res.locals;
+		console.log("USER HERE: ", user);
 
 		if (!user?.email) {
 			throw new UnauthorizedError("User authentication failed");

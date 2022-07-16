@@ -9,7 +9,8 @@ router.post("/login", async (req, res, next) => {
 		const user = await User.login(req.body);
 		const token = createUser(user);
 		res.locals.token = token;
-		console.log("LOGIN: ", res.locals);
+		res.locals.user = user;
+		console.log(res.locals.user);
 
 		return res.status(200).json({ user, token });
 	} catch (err) {
@@ -23,6 +24,7 @@ router.post("/register", async (req, res, next) => {
 		const token = createUser(user);
 
 		res.locals.token = token;
+		res.locals.user = user;
 		return res.status(201).json({ user, token });
 	} catch (err) {
 		next(err);
@@ -33,8 +35,10 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
 	try {
 		const { email } = res.locals.user;
 		const user = await User.fetchUserByEmail(email);
-		const publicUser = User.makePublicUser(user);
-		return res.status(200).json({ user: publicUser });
+
+		const publicUser = await User.makePublicUser(user);
+		console.log("AFSJALKGNFKGNA: ", publicUser);
+		return res.status(200).json({ publicUser: publicUser });
 	} catch (err) {
 		next(err);
 	}

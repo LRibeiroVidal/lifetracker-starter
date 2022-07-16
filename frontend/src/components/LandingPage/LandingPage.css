@@ -1,5 +1,6 @@
 .landing-page {
-	margin-left: 37vw;
+	display: flex;
+	justify-content: center;
 	margin-top: 8vw;
 }
 

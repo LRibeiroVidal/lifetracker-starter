@@ -5,3 +5,27 @@
 .hidden {
 	display: none;
 }
+
+.register-card {
+	width: 50%;
+	text-align: center;
+}
+
+.register-form {
+	display: flex;
+	justify-content: center;
+}
+
+.input-reg-names {
+	width: 45%;
+}
+
+.register-title {
+	color: white;
+	margin-top: 5vw;
+}
+
+.split-input-field {
+	display: flex;
+	justify-content: space-between;
+}

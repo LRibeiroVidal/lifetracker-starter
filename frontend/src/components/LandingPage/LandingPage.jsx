@@ -13,6 +13,7 @@ export default function LandingPage() {
 				src="http://codepath-lifetracker.surge.sh/static/media/smartwatch-screen-digital-device.e2983a85.svg"
 				alt="hero img"
 				width="600vw"
+				className="img-landing"
 			/>
 		</div>
 	);

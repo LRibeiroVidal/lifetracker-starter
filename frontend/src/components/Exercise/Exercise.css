@@ -10,6 +10,12 @@
 	text-align: -webkit-center;
 }
 
+.btn-add {
+	width: 5vw !important;
+	font-size: 0.8vw !important;
+	height: 3vw !important;
+}
+
 .exercise-title {
 	text-align: center;
 	background-color: #46573e;

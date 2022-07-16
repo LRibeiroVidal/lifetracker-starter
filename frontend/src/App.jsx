@@ -11,10 +11,10 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
 import Axios from "axios";
 
+const URL_BASE_ALT = "https://lifetracker-app-lribeirovidal.herokuapp.com/";
 const URL_BASE = "http://localhost:3001/";
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 	const [thisUser, setThisUser] = React.useState(null);
 	const [allExercises, setAllExercises] = React.useState("");
 	const config = {
@@ -26,6 +26,27 @@ function App() {
 		if (thisUser) getExercises(thisUser.id);
 	}, [thisUser]);
 
+	React.useEffect(() => {
+		getUser();
+	});
+
+	async function getUser() {
+		let ME_URL = URL_BASE + "auth/me";
+
+		if (thisUser) return;
+
+		Axios.get(ME_URL, config)
+			.then(function (response) {
+				console.log("responc ", response);
+				setThisUser(response.data.publicUser);
+
+				return response;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
 	async function loginPostReq(email, password) {
 		const LOGIN_URL = URL_BASE + "auth/login";
 		const login_user = await { email: email, password: password };
@@ -34,7 +55,6 @@ function App() {
 			.then(function (response) {
 				setThisUser(response.data.user);
 				localStorage.setItem("token", response.data.token);
-				setIsLoggedIn(true);
 
 				return response;
 			})
@@ -44,9 +64,9 @@ function App() {
 	}
 
 	function logout() {
-		setIsLoggedIn(false);
 		setThisUser(null);
 		localStorage.removeItem("token");
+		localStorage.removeItem("user");
 	}
 
 	async function registerPostReq(
@@ -69,7 +89,6 @@ function App() {
 			.then(function (response) {
 				setThisUser(response.data.user);
 				localStorage.setItem("token", response.data.token);
-				setIsLoggedIn(true);
 
 				return response;
 			})
@@ -117,7 +136,6 @@ function App() {
 			<header className="App-header">
 				<BrowserRouter>
 					<Navbar
-						isLoggedIn={isLoggedIn}
 						thisUser={thisUser}
 						logout={logout}
 						setAllExercises={setAllExercises}

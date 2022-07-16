@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./RegisterForm.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterForm(props) {
 	const [email, setEmail] = React.useState("");
@@ -9,6 +9,7 @@ export default function RegisterForm(props) {
 	const [lastName, setLastName] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [confirmPassword, setConfirmPassword] = React.useState("");
+	const navigate = useNavigate();
 
 	function handleOnRegister(event) {
 		event.preventDefault();
@@ -18,6 +19,7 @@ export default function RegisterForm(props) {
 		setLastName("");
 		setPassword("");
 		setConfirmPassword("");
+		navigate("/Activity");
 		return props.registerPostReq(
 			email,
 			username,
@@ -29,44 +31,46 @@ export default function RegisterForm(props) {
 
 	return (
 		<div className="register-form">
-			<div className="card">
-				<h2>Register</h2>
+			<div className="register-card">
+				<h2 className="register-title">Register</h2>
 				<br />
 				<div className="form">
 					<div className="input-field">
-						<div>Email</div>
 						<input
 							type="email"
 							name="email"
-							placeholder="Enter a valid email"
+							className="form__field"
+							placeholder="Email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</div>
 					<div className="input-field">
-						<div>Username</div>
 						<input
 							type="text"
 							name="username"
-							placeholder="your_username"
+							className="form__field"
+							placeholder="Username"
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 						/>
 					</div>
 					<div className="split-input-field">
-						<div className="input-field">
+						<div className="input-field input-reg-names">
 							<input
 								type="text"
+								className="form__field"
 								name="firstName"
 								placeholder="First Name"
 								value={firstName}
 								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</div>
-						<div className="input-field">
+						<div className="input-field input-reg-names">
 							<input
 								type="text"
 								name="lastName"
+								className="form__field"
 								placeholder="Last Name"
 								value={lastName}
 								onChange={(e) => setLastName(e.target.value)}
@@ -74,9 +78,9 @@ export default function RegisterForm(props) {
 						</div>
 					</div>
 					<div className="input-field">
-						<div>Password</div>
 						<input
 							type="password"
+							className="form__field"
 							name="password"
 							placeholder="Enter a secure password"
 							value={password}
@@ -85,7 +89,6 @@ export default function RegisterForm(props) {
 					</div>
 					<div className="input-field">
 						<div>
-							Confirm Password{" "}
 							<span
 								className={
 									!(password == confirmPassword)
@@ -100,6 +103,7 @@ export default function RegisterForm(props) {
 						<input
 							type="password"
 							name="passwordConfirm"
+							className="form__field"
 							placeholder="Confirm your password"
 							value={confirmPassword}
 							onChange={(e) => {
@@ -108,13 +112,18 @@ export default function RegisterForm(props) {
 						/>
 					</div>
 					<button
-						className="btn"
+						className="btn btn-slice"
 						disabled={!(password == confirmPassword) || password == ""}
 						onClick={(evt) => {
 							handleOnRegister(evt);
 						}}
 					>
-						Create Account
+						<div class="top">
+							<span>Create Account</span>
+						</div>
+						<div class="bottom">
+							<span>Create Account</span>
+						</div>
 					</button>
 				</div>
 				<div className="footer">
