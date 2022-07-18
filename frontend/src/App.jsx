@@ -11,23 +11,31 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
 import Axios from "axios";
 
-const URL_BASE = "https://lifetracker-app-lribeirovidal.herokuapp.com/";
-const URL_BASE_LOCAL = "http://localhost:3001/";
+const URL_BASE_alt = "https://lifetracker-app-lribeirovidal.herokuapp.com/";
+const URL_BASE = "http://localhost:3001/";
 
 function App() {
 	const [thisUser, setThisUser] = React.useState(null);
 	const [allExercises, setAllExercises] = React.useState("");
+	const [allNutrition, setAllNutrition] = React.useState("");
+	const [allSleep, setAllSleep] = React.useState("");
+	const [userExists, setUserExists] = React.useState(false);
 	const config = {
 		headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 	};
+	const [activitiesArray, setActivitiesArray] = React.useState([]);
 
 	React.useEffect(() => {
 		console.log("hot update");
-		if (thisUser) getExercises(thisUser.id);
+		if (thisUser) {
+			getExercises(thisUser.id);
+			getNutrition();
+			getSleep();
+		}
 	}, [thisUser]);
 
 	React.useEffect(() => {
-		getUser();
+		setUserExists(getUser() != null);
 	});
 
 	async function getUser() {
@@ -60,6 +68,34 @@ function App() {
 			})
 			.catch(function (error) {
 				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function getActivities() {
+		if (!localStorage.getItem("token")) {
+			console.log("Early exit");
+			return null;
+		}
+
+		let ACTIVITIES_URL = URL_BASE + "tracker/getActivity";
+		Axios.get(ACTIVITIES_URL, config)
+			.then(async function (response) {
+				console.log("response getActivities: ", response); //FIXME: delete
+				if (
+					response.data?.exercise.rows ||
+					response.data?.nutrition.rows ||
+					response.data?.sleep.rows
+				) {
+					console.log("DATA HERE: ", response.data);
+					const resp = await response.data;
+					setActivitiesArray(resp);
+					return resp;
+				}
+				console.log("Alternate early exit");
+				return null;
+			})
+			.catch(function (error) {
+				console.log("ERROR IN GETACTIVITIES ", error); //TODO: ERROR HANDLING
 			});
 	}
 
@@ -122,8 +158,75 @@ function App() {
 		const GETEXERCISE_URL = URL_BASE + "tracker/getExercises";
 		Axios.post(GETEXERCISE_URL, id_user, config)
 			.then(function (response) {
-				console.log("HERE HERE HERE ", response.data.rows);
 				setAllExercises(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function addNutritionPostRequest(
+		name,
+		category,
+		quantity,
+		calories,
+		image
+	) {
+		const ADDNUTRITION_URL = URL_BASE + "tracker/addNutrition";
+		const nutritionAdded = {
+			name: name,
+			category: category,
+			quantity: quantity,
+			calories: calories,
+			image: image,
+			user_id: thisUser.id,
+		};
+		Axios.post(ADDNUTRITION_URL, nutritionAdded, config)
+			.then(function (response) {
+				setAllNutrition(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function getNutrition() {
+		const GETNUTRITION_URL = URL_BASE + "tracker/getNutrition";
+		Axios.get(GETNUTRITION_URL, config)
+			.then(function (response) {
+				setAllNutrition(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function addSleepPostRequest(start, end) {
+		const ADDSLEEP_URL = URL_BASE + "tracker/addSleep";
+		const sleepAdded = {
+			start: start,
+			end: end,
+			user_id: thisUser.id,
+		};
+		Axios.post(ADDSLEEP_URL, sleepAdded, config)
+			.then(function (response) {
+				console.log("REPSOMDE: ", response.data.rows);
+				setAllSleep(response.data.rows);
+				return response.data;
+			})
+			.catch(function (error) {
+				console.log("ERROR ", error); //TODO: ERROR HANDLING
+			});
+	}
+
+	async function getSleep() {
+		const GETSLEEP_URL = URL_BASE + "tracker/getSleep";
+		Axios.get(GETSLEEP_URL, config)
+			.then(function (response) {
+				setAllSleep(response.data.rows);
 				return response.data;
 			})
 			.catch(function (error) {
@@ -140,10 +243,19 @@ function App() {
 						logout={logout}
 						setAllExercises={setAllExercises}
 						getExercises={getExercises}
+						userExists={userExists}
 					/>
 					<Routes>
 						<Route path="/" element={<LandingPage />} />
-						<Route path="/Activity" element={<Activity />} />
+						<Route
+							path="/Activity"
+							element={
+								<Activity
+									activitiesArray={activitiesArray}
+									getActivities={getActivities}
+								/>
+							}
+						/>
 						<Route
 							path="/Exercise"
 							element={
@@ -156,8 +268,30 @@ function App() {
 								/>
 							}
 						/>
-						<Route path="/Nutrition" element={<Nutrition />} />
-						<Route path="/Sleep" element={<Sleep />} />
+						<Route
+							path="/Nutrition"
+							element={
+								<Nutrition
+									getNutrition={getNutrition}
+									thisUser={thisUser}
+									setAllNutrition={setAllNutrition}
+									allNutrition={allNutrition}
+									addNutrition={addNutritionPostRequest}
+								/>
+							}
+						/>
+						<Route
+							path="/Sleep"
+							element={
+								<Sleep
+									addSleep={addSleepPostRequest}
+									thisUser={thisUser}
+									setAllSleep={setAllSleep}
+									allSleep={allSleep}
+									getSleep={getSleep}
+								/>
+							}
+						/>
 						<Route
 							path="/Login"
 							element={<LoginForm loginPostReq={loginPostReq} />}

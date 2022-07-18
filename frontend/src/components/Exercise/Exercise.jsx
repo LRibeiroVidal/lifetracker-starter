@@ -84,7 +84,6 @@ export function AddExercise(props) {
 			</div>
 
 			<div className="exercise-duration-intensity">
-				{/*TODO: Make this a flexbox*/}
 				<div className="exercise-duration-form">
 					<input
 						type="number"
@@ -119,8 +118,8 @@ export function AddExercise(props) {
 						props.addExercise(
 							exerciseName,
 							exerciseCategory,
-							exerciseDuration,
-							exerciseIntensity
+							Math.round(exerciseDuration),
+							Math.round(exerciseIntensity)
 						);
 
 						props.setIsAddingExercise(false);

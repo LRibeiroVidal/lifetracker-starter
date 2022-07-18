@@ -99,25 +99,7 @@ const Navbar = (props) => {
 								))}
 							</Menu>
 						</Box>
-						<AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-						<Typography
-							variant="h5"
-							noWrap
-							component="a"
-							href=""
-							sx={{
-								mr: 2,
-								display: { xs: "flex", md: "none" },
-								flexGrow: 1,
-								fontFamily: "monospace",
-								fontWeight: 700,
-								letterSpacing: ".3rem",
-								color: "inherit",
-								textDecoration: "none",
-							}}
-						>
-							LOGO
-						</Typography>
+
 						<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 							{pages.map((page) => (
 								<Button
@@ -133,10 +115,7 @@ const Navbar = (props) => {
 						</Box>
 
 						<Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-							<Link
-								to="/Login"
-								className={localStorage.getItem("token") ? "hidden" : ""}
-							>
+							<Link to="/Login" className={props.thisUser ? "hidden" : ""}>
 								<Button
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}
@@ -145,10 +124,7 @@ const Navbar = (props) => {
 								</Button>
 							</Link>
 
-							<Link
-								to="/Register"
-								className={localStorage.getItem("token") ? "hidden" : ""}
-							>
+							<Link to="/Register" className={props.thisUser ? "hidden" : ""}>
 								<Button
 									onClick={handleCloseNavMenu}
 									sx={{ my: 2, color: "white", display: "block" }}

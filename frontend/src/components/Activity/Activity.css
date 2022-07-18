@@ -2,3 +2,34 @@ a {
 	text-decoration: none;
 	color: aliceblue;
 }
+
+.activity {
+	color: aliceblue;
+	text-align: -webkit-center;
+}
+.activity-title {
+	text-align: center;
+	background-color: #563935;
+	padding: 1vw;
+	margin-top: 2vw;
+	margin-bottom: 2vw;
+}
+
+.card-act {
+	margin: 1vw;
+	border-radius: 1vw;
+	border: 1px whitesmoke solid;
+	width: 15vw;
+	height: 10vw;
+	font-size: large;
+	font-weight: bold;
+}
+
+.activity-description {
+	display: flex;
+	justify-content: center;
+}
+
+.activity-nothing {
+	display: flex;
+}
